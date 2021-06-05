@@ -1,4 +1,5 @@
-// Redux Clone Library
+//------------------------------------------- Redux Clone
+
 function createStore(reducer) {
   let state;
   const listeners = [];
@@ -26,7 +27,7 @@ function createStore(reducer) {
   };
 }
 
-// App Code
+//------------------------------------------- App Code
 
 const ADD_TODO = 'ADD_TODO';
 const REMOVE_TODO = 'REMOVE_TODO';
@@ -117,10 +118,26 @@ const unsubscribe = store.subscribe(() => {
   todos.forEach(addTodoToDOM);
 });
 
+//------------------------------------------- DOM Code
+
+function createRemoveButton(onClick) {
+  const removeBtn = document.createElement('button');
+  removeBtn.innerHTML = 'X';
+  removeBtn.addEventListener('click', onClick);
+  return removeBtn;
+}
+
 function addTodoToDOM(todo) {
   const node = document.createElement('li');
   const text = document.createTextNode(todo.name);
+
+  const removeBtn = createRemoveButton(() => {
+    store.dispatch(removeTodoAction(todo.id));
+  });
+
   node.appendChild(text);
+  node.appendChild(removeBtn);
+
   node.style.textDecoration = todo.complete ? 'line-through' : 'none';
   node.addEventListener('click', () => {
     store.dispatch(toggleTodoAction(todo.id));
@@ -132,46 +149,16 @@ function addTodoToDOM(todo) {
 function addGoalToDOM(goal) {
   const node = document.createElement('li');
   const text = document.createTextNode(goal.name);
+
+  const removeBtn = createRemoveButton(() => {
+    store.dispatch(removeGoalAction(goal.id));
+  });
+
   node.appendChild(text);
+  node.appendChild(removeBtn);
 
   document.getElementById('goals').appendChild(node);
 }
-
-// store.dispatch(
-//   addTodoAction({
-//     id: 0,
-//     name: 'Build Redux',
-//     complete: false,
-//   })
-// );
-
-// store.dispatch(
-//   addTodoAction({
-//     id: 1,
-//     name: 'Keep Build Redux',
-//     complete: true,
-//   })
-// );
-
-// store.dispatch(removeTodoAction(1));
-
-// store.dispatch(toggleTodoAction(1));
-
-// store.dispatch(
-//   addGoalAction({
-//     id: 0,
-//     name: 'Build React-Redux',
-//   })
-// );
-
-// store.dispatch(
-//   addGoalAction({
-//     id: 1,
-//     name: 'Build React',
-//   })
-// );
-
-// store.dispatch(removeGoalAction(0));
 
 function generateId() {
   return (
@@ -179,7 +166,6 @@ function generateId() {
   );
 }
 
-// DOM Code
 function addTodo() {
   const input = document.getElementById('todo');
   const name = input.value;
