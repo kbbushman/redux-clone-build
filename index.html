@@ -8,22 +8,21 @@
       src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.1.0/redux.min.js"
       defer
     ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@17/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://tylermcginnis.com/goals-todos-api/index.js"></script>
     <script src="index.js" defer></script>
+    <script src="app.js" type="text/babel" defer></script>
     <title>Redux Clone</title>
   </head>
   <body>
-    <div>
-      <h1>Todo List</h1>
-      <input id="todo" type="text" placeholder="Add Todo" />
-      <button id="todoBtn">Add Todo</button>
-      <ul id="todos"></ul>
-    </div>
-
-    <div>
-      <h1>Goals</h1>
-      <input id="goal" type="text" placeholder="Add Goal" />
-      <button id="goalBtn">Add Goal</button>
-      <ul id="goals"></ul>
-    </div>
+    <div id="root"></div>
   </body>
 </html>
