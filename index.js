@@ -107,10 +107,20 @@ function goalsReducer(state = [], action) {
   }
 }
 
+function loadingReducer(state = true, action) {
+  switch (action.type) {
+    case RECEIVE_DATA:
+      return false;
+    case deault:
+      return state;
+  }
+}
+
 const store = Redux.createStore(
   Redux.combineReducers({
     goals: goalsReducer,
     todos: todosReducer,
+    loading: loadingReducer,
   }),
   Redux.applyMiddleware(checker, logger)
 );
