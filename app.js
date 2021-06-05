@@ -20,16 +20,15 @@ function List(props) {
 class Todos extends React.Component {
   addItem = (e) => {
     e.preventDefault();
-    const name = this.input.value;
-    this.input.value = '';
 
-    this.props.store.dispatch(
-      addTodoAction({
-        id: generateId(),
-        name: name,
-        completed: false,
+    return API.saveTodo(this.input.value)
+      .then((todo) => {
+        this.props.store.dispatch(addTodoAction(todo));
+        this.input.value = '';
       })
-    );
+      .catch(() => {
+        alert('An error occurred. Please try again');
+      });
   };
 
   removeItem = (todo) => {
@@ -73,15 +72,15 @@ class Todos extends React.Component {
 class Goals extends React.Component {
   addItem = (e) => {
     e.preventDefault();
-    const name = this.input.value;
-    this.input.value = '';
 
-    this.props.store.dispatch(
-      addGoalAction({
-        id: generateId(),
-        name: name,
+    return API.saveGoal(this.input.value)
+      .then((goal) => {
+        this.props.store.dispatch(addGoalAction(goal));
+        this.input.value = '';
       })
-    );
+      .catch(() => {
+        alert('An error occurred. Please try again');
+      });
   };
 
   removeItem = (goal) => {
