@@ -15,6 +15,24 @@ function todosReducer(state = [], action) {
   }
 }
 
+function goalsReducer(state = [], action) {
+  switch (action.type) {
+    case 'ADD_GOAL':
+      return state.concat([action.goal]);
+    case 'REMOVE_GOAL':
+      return state.filter((goal) => goal.id !== action.id);
+    default:
+      return state;
+  }
+}
+
+function rootReducer(state = {}, action) {
+  return {
+    todos: todosReducer(state.todos, action),
+    goals: goalsReducer(state.goals, action),
+  };
+}
+
 function createStore(reducer) {
   let state;
   const listeners = [];
@@ -42,7 +60,7 @@ function createStore(reducer) {
   };
 }
 
-const store = createStore(todosReducer);
+const store = createStore(rootReducer);
 console.log(store);
 store.getState();
 const unsubscribe = store.subscribe(() => {
@@ -70,5 +88,23 @@ store.dispatch({
 });
 store.dispatch({
   type: 'TOGGLE_TODO',
+  id: 0,
+});
+store.dispatch({
+  type: 'ADD_GOAL',
+  goal: {
+    id: 0,
+    name: 'Build React-Redux',
+  },
+});
+store.dispatch({
+  type: 'ADD_GOAL',
+  goal: {
+    id: 1,
+    name: 'Build React',
+  },
+});
+store.dispatch({
+  type: 'REMOVE_GOAL',
   id: 0,
 });
