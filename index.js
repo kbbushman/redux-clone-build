@@ -111,7 +111,7 @@ function loadingReducer(state = true, action) {
   switch (action.type) {
     case RECEIVE_DATA:
       return false;
-    case deault:
+    default:
       return state;
   }
 }
