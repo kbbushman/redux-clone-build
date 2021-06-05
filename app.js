@@ -5,7 +5,7 @@ function List(props) {
         return (
           <li
             key={item.id}
-            onClick={() => props && props.toggle(item.id)}
+            onClick={() => props.toggle && props.toggle(item.id)}
             style={{ textDecoration: item.complete ? 'line-through' : 'none' }}
           >
             <span>{item.name}</span>
@@ -34,6 +34,11 @@ class Todos extends React.Component {
 
   removeItem = (todo) => {
     this.props.store.dispatch(removeTodoAction(todo.id));
+
+    return API.deleteTodo(todo.id).catch((err) => {
+      this.props.store.dispatch(addTodoAction(todo));
+      alert('An error occurred. Please try again');
+    });
   };
 
   toggleItem = (id) => {
@@ -76,6 +81,11 @@ class Goals extends React.Component {
 
   removeItem = (goal) => {
     this.props.store.dispatch(removeGoalAction(goal.id));
+
+    return API.deleteGoal().catch((err) => {
+      this.props.store.dispatch(addGoalAction(goal));
+      alert('An error occurred. Please try again');
+    });
   };
 
   render() {
