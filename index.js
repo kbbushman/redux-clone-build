@@ -34,6 +34,41 @@ const TOGGLE_TODO = 'TOGGLE_TODO';
 const ADD_GOAL = 'ADD_GOAL';
 const REMOVE_GOAL = 'REMOVE_GOAL';
 
+function addTodoAction(todo) {
+  return {
+    type: ADD_TODO,
+    todo,
+  };
+}
+
+function removeTodoAction(id) {
+  return {
+    type: REMOVE_TODO,
+    id,
+  };
+}
+
+function toggleTodoAction(id) {
+  return {
+    type: TOGGLE_TODO,
+    id,
+  };
+}
+
+function addGoalAction(goal) {
+  return {
+    type: ADD_GOAL,
+    goal,
+  };
+}
+
+function removeGoalAction(id) {
+  return {
+    type: REMOVE_GOAL,
+    id,
+  };
+}
+
 function todosReducer(state = [], action) {
   switch (action.type) {
     case ADD_TODO:
@@ -75,45 +110,39 @@ store.getState();
 const unsubscribe = store.subscribe(() => {
   console.log('The state is : ', store.getState());
 });
-store.dispatch({
-  type: ADD_TODO,
-  todo: {
+
+store.dispatch(
+  addTodoAction({
     id: 0,
     name: 'Build Redux',
     complete: false,
-  },
-});
-store.dispatch({
-  type: ADD_TODO,
-  todo: {
+  })
+);
+
+store.dispatch(
+  addTodoAction({
     id: 1,
     name: 'Keep Build Redux',
     complete: true,
-  },
-});
-store.dispatch({
-  type: REMOVE_TODO,
-  id: 1,
-});
-store.dispatch({
-  type: TOGGLE_TODO,
-  id: 0,
-});
-store.dispatch({
-  type: ADD_GOAL,
-  goal: {
+  })
+);
+
+store.dispatch(removeTodoAction(1));
+
+store.dispatch(toggleTodoAction(1));
+
+store.dispatch(
+  addGoalAction({
     id: 0,
     name: 'Build React-Redux',
-  },
-});
-store.dispatch({
-  type: ADD_GOAL,
-  goal: {
+  })
+);
+
+store.dispatch(
+  addGoalAction({
     id: 1,
     name: 'Build React',
-  },
-});
-store.dispatch({
-  type: REMOVE_GOAL,
-  id: 0,
-});
+  })
+);
+
+store.dispatch(removeGoalAction(0));
