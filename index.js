@@ -1,31 +1,31 @@
 //------------------------------------------- Redux Clone
 
-function createStore(reducer) {
-  let state;
-  const listeners = [];
+// function createStore(reducer) {
+//   let state;
+//   const listeners = [];
 
-  const getState = () => state;
+//   const getState = () => state;
 
-  const subscribe = (listener) => {
-    listeners.push(listener);
+//   const subscribe = (listener) => {
+//     listeners.push(listener);
 
-    // Unsubscribe
-    return () => {
-      listeners = listeners.filter((l) => l !== listener);
-    };
-  };
+//     // Unsubscribe
+//     return () => {
+//       listeners = listeners.filter((l) => l !== listener);
+//     };
+//   };
 
-  const dispatch = (action) => {
-    state = reducer(state, action);
-    listeners.forEach((listener) => listener());
-  };
+//   const dispatch = (action) => {
+//     state = reducer(state, action);
+//     listeners.forEach((listener) => listener());
+//   };
 
-  return {
-    getState,
-    subscribe,
-    dispatch,
-  };
-}
+//   return {
+//     getState,
+//     subscribe,
+//     dispatch,
+//   };
+// }
 
 //------------------------------------------- App Code
 
@@ -70,6 +70,24 @@ function removeGoalAction(id) {
   };
 }
 
+const checker = (store) => (next) => (action) => {
+  if (
+    action.type === ADD_TODO &&
+    action.todo.name.toLowerCase().indexOf('bitcoin') !== -1
+  ) {
+    return alert('Not a good idea....');
+  }
+
+  if (
+    action.type === ADD_GOAL &&
+    action.goal.name.toLowerCase().indexOf('bitcoin') !== -1
+  ) {
+    return alert('Not a good idea....');
+  }
+
+  return next(action);
+};
+
 function todosReducer(state = [], action) {
   switch (action.type) {
     case ADD_TODO:
@@ -98,14 +116,20 @@ function goalsReducer(state = [], action) {
   }
 }
 
-function rootReducer(state = {}, action) {
-  return {
-    todos: todosReducer(state.todos, action),
-    goals: goalsReducer(state.goals, action),
-  };
-}
+// function rootReducer(state = {}, action) {
+//   return {
+//     todos: todosReducer(state.todos, action),
+//     goals: goalsReducer(state.goals, action),
+//   };
+// }
 
-const store = createStore(rootReducer);
+const store = Redux.createStore(
+  Redux.combineReducers({
+    goals: goalsReducer,
+    todos: todosReducer,
+  }),
+  Redux.applyMiddleware(checker)
+);
 
 const unsubscribe = store.subscribe(() => {
   // console.log('The state is : ', store.getState());
