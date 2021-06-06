@@ -143,13 +143,13 @@ const logger = (store) => (next) => (action) => {
   return result;
 };
 
-const thunk = (store) => (next) => (action) => {
-  if (typeof action === 'function') {
-    return action(store.dispatch);
-  }
+// const thunk = (store) => (next) => (action) => {
+//   if (typeof action === 'function') {
+//     return action(store.dispatch);
+//   }
 
-  return next(action);
-};
+//   return next(action);
+// };
 
 function todosReducer(state = [], action) {
   switch (action.type) {
@@ -198,7 +198,7 @@ const store = Redux.createStore(
     todos: todosReducer,
     loading: loadingReducer,
   }),
-  Redux.applyMiddleware(thunk, checker, logger)
+  Redux.applyMiddleware(ReduxThunk.default, checker, logger)
 );
 
 function generateId() {
