@@ -106,6 +106,16 @@ function handleToggleTodo(id) {
   };
 }
 
+function handleInitialData() {
+  return (dispatch) => {
+    return Promise.all([API.fetchTodos(), API.fetchGoals()]).then(
+      ([todos, goals]) => {
+        dispatch(receiveDataAction(todos, goals));
+      }
+    );
+  };
+}
+
 const checker = (store) => (next) => (action) => {
   if (
     action.type === ADD_TODO &&
